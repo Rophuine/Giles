@@ -15,12 +15,16 @@ The plugin ships:
 
 ## Install
 
+This repo is a Claude Code marketplace (`giles-plugins`) that currently contains one plugin (`giles`). Two-step install:
+
 ```
 /plugin marketplace add <path-or-git-url>
-/plugin install giles
+/plugin install giles@giles-plugins
 ```
 
-Where `<path-or-git-url>` is either the local filesystem path to this repo or its GitHub URL after pushing.
+Where `<path-or-git-url>` is either the local filesystem path to this repo (e.g. `c:\dev\lee\claude-plugins\giles`) or its GitHub URL after pushing (e.g. `lionellpack/giles`).
+
+After install, the skill appears as `giles:knowledge-base-cleanup` in the available-skills list.
 
 ## When the cleanup skill applies
 
@@ -32,13 +36,17 @@ Where `<path-or-git-url>` is either the local filesystem path to this repo or it
 ## Layout
 
 ```
-giles/
+giles/                                       # marketplace repo root
 ├── .claude-plugin/
-│   └── plugin.json
-├── CLAUDE.md                                # loaded as session context when plugin enabled
-├── skills/
-│   └── knowledge-base-cleanup/
-│       └── SKILL.md                         # the cleanup procedure
+│   └── marketplace.json                     # marketplace catalog (lists plugins)
+├── plugins/
+│   └── giles/                               # the Giles plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json                  # plugin manifest
+│       ├── CLAUDE.md                        # loaded as session context when plugin enabled
+│       └── skills/
+│           └── knowledge-base-cleanup/
+│               └── SKILL.md                 # the cleanup procedure
 ├── LICENSE
 └── README.md
 ```

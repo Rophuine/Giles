@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "giles-plugins",
+  "description": "Temporary home for Giles until I set up something better",
+  "owner": {
+    "name": "Lionell Pack"
+  },
+  "plugins": [
+    {
+      "name": "giles",
+      "source": "./plugins/giles",
+      "description": "Knowledge-base discipline for agent-notes files. Keeps CLAUDE.md as an index not a dump, distinguishes active-work records from post-completion archaeology (adapting to each repo's planning convention), and ships a one-off cleanup procedure for sprawling agent-notes files.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lionell Pack"
+      },
+      "license": "MIT",
+      "category": "productivity"
+    }
+  ]
+}
