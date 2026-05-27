@@ -1,0 +1,9 @@
+{
+  "name": "giles",
+  "version": "0.1.0",
+  "description": "Knowledge-base discipline for agent-notes files. Keeps CLAUDE.md as an index not a dump, distinguishes active-work records from post-completion archaeology (adapting to each repo's planning convention), and ships a one-off cleanup procedure for sprawling agent-notes files.",
+  "author": {
+    "name": "Lionell Pack"
+  },
+  "license": "MIT"
+}
