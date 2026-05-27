@@ -1,13 +1,13 @@
 ---
-name: knowledge-base-cleanup
-description: Restructure a repo's CLAUDE.md (or equivalent agent-notes file) when it has accumulated long inline content that should live in docs/ sub-trees. Use when the file grows past ~250 lines, when a section is monotonically accreting (Current state, Patterns, decisions blocks), or when the user asks to "clean up", "restructure", or "organise" their repo's agent notes. Trigger on phrases like "clean up CLAUDE.md", "restructure the docs", "knowledge base is getting too big", "organise the agent notes", "/kb-cleanup". Walks through inventory → propose structure → extract files → rewrite index → verify.
+name: giles-cleanup
+description: Restructure a repo's CLAUDE.md (or equivalent agent-notes file) when it has accumulated long inline content that should live in docs/ sub-trees. Use when the file grows past ~250 lines, when a section is monotonically accreting (Current state, Patterns, decisions blocks), or when the user asks to "clean up", "restructure", or "organise" their repo's agent notes. Trigger on phrases like "clean up CLAUDE.md", "restructure the docs", "knowledge base is getting too big", "organise the agent notes", "/giles-cleanup". Walks through inventory → propose structure → extract files → rewrite index → verify.
 ---
 
-# Knowledge-base cleanup
+# Giles cleanup — knowledge-base restructure
 
 Restructure `CLAUDE.md` (or any agent-notes file: `AGENTS.md`, project-specific equivalents) from monolithic content into an index that points at sub-tree files. The principle: `CLAUDE.md` is auto-loaded into every session and pays its own context cost. Deep content — patterns, milestone history, design discussions, troubleshooting recipes — should live in files that load only when needed.
 
-This skill is for the **one-off restructure** when a repo's knowledge base has grown unwieldy. For day-to-day maintenance after the restructure, the rules live in the maintenance section the restructure adds to `CLAUDE.md` itself.
+This skill is for the **one-off restructure** when a repo's knowledge base has grown unwieldy. For day-to-day maintenance after the restructure, the rules live in the maintenance section the restructure adds to `CLAUDE.md` itself. For end-of-session capture of newly-learned knowledge, see the sibling `giles-distill` skill.
 
 ## When this skill applies
 

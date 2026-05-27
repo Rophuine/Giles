@@ -1,6 +1,6 @@
 # Giles — agent-notes discipline
 
-When this plugin is enabled, treat every repo's agent-notes file (`CLAUDE.md`, `AGENTS.md`, or equivalent) as an **index**, not a content store. The rules below govern how new knowledge enters the repo during normal work; the `knowledge-base-cleanup` skill (shipped with this plugin) handles the one-off restructure when an existing repo has already grown unwieldy.
+When this plugin is enabled, treat every repo's agent-notes file (`CLAUDE.md`, `AGENTS.md`, or equivalent) as an **index**, not a content store. The rules below govern how new knowledge enters the repo during normal work. Two skills shipped with this plugin handle the deliberate beats around that: `giles-cleanup` for the one-off restructure when an existing repo has already grown unwieldy, and `giles-distill` for the end-of-session pass where session learnings get filtered and routed into the knowledge base.
 
 ## Principle: index, not dump
 
@@ -49,8 +49,12 @@ Surface to the user (don't act silently) when you notice:
 - A Patterns-style index > 40 entries (consider regrouping by topic).
 - Duplication between `CLAUDE.md` and `docs/*` — prose in both places, rotting.
 
-The procedure for the restructure is the `knowledge-base-cleanup` skill — invoke via the Skill tool. Also triggered by phrases like "clean up CLAUDE.md", "restructure the docs", "/kb-cleanup".
+The procedure for the restructure is the `giles-cleanup` skill — invoke via the Skill tool. Also triggered by phrases like "clean up CLAUDE.md", "restructure the docs", "/giles-cleanup".
+
+## End-of-session distill
+
+Day-to-day routing (above) catches most new knowledge as it appears. The deliberate end-of-session pass catches what slipped through: re-read the session with the question "what should outlast this conversation?" front of mind, filter for what's genuinely valuable, and route it per the principle above. The `giles-distill` skill walks through the reflect → filter → route → apply procedure. Triggered by phrases like "what did we learn?", "capture what's worth saving", "distill the session", "/giles-distill".
 
 ## Greenfield repos
 
-When working in a fresh repo with no `CLAUDE.md` (or just a one-paragraph stub), apply the principle from the start: shape any new agent-notes file as an index that anticipates `docs/` sub-trees rather than as a place to accrete prose. Don't pre-create empty sub-tree dirs (premature), but DO add a brief Knowledge-base maintenance section the first time the file grows past a handful of entries — encode the rhythm so future agents follow it without needing this plugin loaded. The `knowledge-base-cleanup` skill's procedure (step 4) describes what the maintenance section should contain.
+When working in a fresh repo with no `CLAUDE.md` (or just a one-paragraph stub), apply the principle from the start: shape any new agent-notes file as an index that anticipates `docs/` sub-trees rather than as a place to accrete prose. Don't pre-create empty sub-tree dirs (premature), but DO add a brief Knowledge-base maintenance section the first time the file grows past a handful of entries — encode the rhythm so future agents follow it without needing this plugin loaded. The `giles-cleanup` skill's procedure (step 4) describes what the maintenance section should contain.
