@@ -18,7 +18,20 @@ Typical sub-trees that emerge in repos using this discipline. The patterns + top
 When you learn something new in a repo:
 
 - **Fits an existing category** — write it to that sub-tree, add a one-line index entry in `CLAUDE.md`. Don't expand the index entry; the file owns the prose.
-- **Doesn't fit any existing category** — surface the gap to the user before creating a new sub-tree or top-level doc. Introducing a new category is a structural decision, not a silent action.
+- **Doesn't fit any existing category** — make the call yourself per "Steward, not clerk" below. Pick the best home, create the sub-tree or top-level doc, and name the addition in your reply ("added `docs/decisions/` for ADR-style entries because…"). Escalate to a real question only on a genuine fork.
+
+## Steward, not clerk
+
+Giles is the steward of the knowledge base, not a clerk waiting for a stamp on each decision. Make routine structural calls — including introducing a new sub-tree or top-level doc when one obviously fits the content — and tell the user what you did in your reply. The user sees the diff and can redirect; that's enough oversight for a small, reversible choice. Manufactured questions ("here's the obvious option plus two clearly-wrong ones") are friction without value: skip them, decide, and report.
+
+Escalate to a real question only when there's a genuine fork:
+
+- Multiple reasonable homes for the same content, with real trade-offs between them.
+- A decision that locks in the repo's long-term shape (e.g. "do we adopt ADRs as a convention, or keep using prose design docs?").
+- Knowledge that straddles two domains and might be split, kept whole, or live in one place with a pointer from the other.
+- Splits, merges, or rearranging of existing structure — those undo prior decisions, so the user should weigh in.
+
+Steward-led doesn't mean unannounced. When you add a sub-tree, a top-level doc, or a new top-level section in `CLAUDE.md`, say so in your reply so the user can see the structural shift without re-reading the diff.
 
 ## Active work vs archaeology
 
@@ -33,7 +46,7 @@ Active work has a separate rhythm from the static knowledge base. Wherever curre
 
 When you learn something *reusable* during active work (a pattern, a cross-cutting decision worth a dedicated doc), extract it into the knowledge-base structure with a pointer back instead of letting it accrete in the working doc — or worse, in `CLAUDE.md`. At natural completion boundaries (milestone end, sprint end, feature ship, whatever the repo uses), do an extraction-and-condense pass: what reusable lessons surfaced? Where do they belong in the structure? What can be archived?
 
-If you don't know what the repo's working-doc convention is, ask the user before introducing one. Inventing a milestone structure (or any new structure) for a repo that doesn't use one is the same category-introduction mistake the principle warns about.
+If you can't tell from the repo's existing structure what its working-doc convention is — in-repo plan docs, sprint cycles, external tracker, feature-branch READMEs — ask the user before introducing one. Picking a planning convention isn't really discoverable from the code and locks in long-lived shape; that's a genuine fork, not a steward call.
 
 ## Hand-off prompts are pointers, not knowledge dumps
 

@@ -70,7 +70,7 @@ For Current state: last 1–3 active-milestone entries (short summaries + link t
 
 Add a **maintenance section** near the top of `CLAUDE.md` with:
 
-- The **principle**: "CLAUDE.md is an index, not a dump. Each section points at a sub-tree that owns the prose; the agent's job is to maintain that structure, not overflow it. When knowledge genuinely doesn't fit any existing category, surface the gap to the user before creating a new sub-tree — introducing a new category is a structural decision, not a silent action."
+- The **principle**: "CLAUDE.md is an index, not a dump. Each section points at a sub-tree that owns the prose; the agent's job is to maintain that structure, not overflow it. The agent is the steward: routine structural calls (new sub-tree, new top-level doc, new top-level section here) are made directly and named in the reply. Escalate to the user only on a genuine fork — multiple reasonable homes with real trade-offs, a decision that locks in long-term shape, or splits/merges of existing structure."
 - The **active-vs-archaeology distinction**: in-progress status / running notes / per-task implementation details live in whatever working record the repo uses (in-repo plan doc, external tracker, PR descriptions) — not in CLAUDE.md, and not in a pre-created history doc. The working record isn't a dumping ground either: reusable lessons (patterns, cross-cutting decisions) extract into the knowledge-base structure with a pointer back.
 - Per-category routing rules — for the rhythm to follow, **tailored to the repo's planning convention**. For a milestone-shaped repo, this typically reads:
   - new pattern → `docs/patterns/<slug>.md` + one-liner in the Patterns index

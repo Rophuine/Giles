@@ -60,32 +60,34 @@ For each surviving item, propose where it goes per the Giles principle:
 
 - **Fits an existing pattern / doc** → extend that file. Index update in `CLAUDE.md` only if the entry doesn't yet exist there.
 - **Earns its own page** → new `docs/<topic>.md` or `docs/patterns/<slug>.md` + one-line index entry in `CLAUDE.md`.
-- **Truly a new category** → surface the structural call to the user before creating a new sub-tree. Introducing a category is a structural decision, not a silent action.
+- **Truly a new category** → pick the best home and create the sub-tree per "Steward, not clerk" in the plugin's `CLAUDE.md`. Name the addition in your reply so the user can redirect if they disagree. Escalate only on a genuine fork (multiple reasonable homes with trade-offs, or a decision that locks in the repo's long-term shape).
 - **Not repo knowledge at all** — cross-repo personal preferences, machine-local references, anything user-specific that wouldn't help an agent working in this repo for a different user. Flag for the user, don't write to the repo KB. Auto-memory and global instructions have their own routing for this kind of thing.
 - **Belongs in the active working record** (in-repo plan doc, PR description, external tracker) — point at it there if it's task-state rather than reusable knowledge.
 
 Inspect the repo's existing structure before proposing. Don't invent new sub-trees that parallel ones that already exist.
 
-### 4. Apply — write directly, check on structural changes
+### 4. Apply — decide as the steward, report what you did
 
-The Giles principle gives you the routing; this skill's job is to help you slow down and reflect, not to introduce a per-decision approval gate. For most kept items, just write.
+The Giles principle puts you in the steward role: make routine structural calls and tell the user in your reply. The pass-the-stamp pattern (asking the user to bless each obvious decision) is friction without value — the user sees the diff and can push back. This skill's job is to help you slow down and reflect, not to introduce a per-decision approval gate.
 
-**Routine writes (just do them):**
+**Just do them and report:**
 
 - New entry in an existing sub-tree (e.g. another file under `docs/patterns/`).
 - Extension to an existing `docs/<topic>.md` file.
-- Index entry in `CLAUDE.md` that points at a file you just created (or that updates the one-liner for an existing entry).
+- Index entry in `CLAUDE.md` that points at a file you just created (or updates the one-liner for an existing entry).
+- New sub-tree (`docs/<category>/`) or top-level doc when one obviously fits the content — the kind of call where alternatives would be clearly wrong.
+- New top-level section in `CLAUDE.md` when the content genuinely needs its own heading.
 
-**Structural changes (pause and check first):**
+**Escalate to a real question only on a genuine fork:**
 
-- Introducing a new sub-tree / new category (e.g. creating `docs/decisions/` when only `docs/patterns/` existed).
-- Splitting an existing file into multiple, merging two, or otherwise rearranging the shape.
-- Adding a brand-new top-level section in `CLAUDE.md`.
-- Anything that changes the shape of the KB rather than adding to it.
+- Multiple reasonable homes for the same content, with real trade-offs between them.
+- A decision that locks in the repo's long-term shape (e.g. "introduce ADRs as a convention, or keep using prose design docs").
+- Splits, merges, or rearranging of existing structure — those undo prior decisions, so the user should weigh in.
+- Cases where you're genuinely unsure and pretending to decide would just defer the question to a worse moment.
 
-For structural items, surface the proposed shape to the user before writing. Pair it with the routine items so the user can see the whole pass in one go (and can still push back on a routine item if they disagree). Then write everything in one batch — files in parallel (they're independent), index updates in `CLAUDE.md` last so the index always points at files that exist.
+If you catch yourself drafting a question whose options are "the obvious one" plus two clearly-wrong alternatives, that's not a fork — skip the question, decide, and name the addition in your end-of-pass summary.
 
-When the pass is purely routine, just write and report. A short "wrote these N items" summary at the end so the user can skim the diff is enough.
+Write everything in one batch — files in parallel (they're independent), index updates in `CLAUDE.md` last so the index always points at files that exist. End with a short "wrote these N items, including a new `docs/<category>/` sub-tree because X" summary so the user can skim the diff and see any structural shifts at a glance.
 
 ### 5. Verify
 
@@ -95,10 +97,10 @@ When the pass is purely routine, just write and report. A short "wrote these N i
 
 ## What NOT to do
 
-- **Don't make structural changes without explicit sign-off.** New sub-trees, splits, merges, new top-level sections in `CLAUDE.md` — those are structural decisions and belong to the user. Routine additions to existing structure don't need a check; the principle and the routing in step 3 are enough.
+- **Don't ask for stamps on obvious calls.** The steward decides routine structural questions (new sub-tree, new top-level section, new top-level doc) and reports them in the reply. Sign-off is for genuine forks: splits, merges, decisions that lock in long-term shape, multiple reasonable homes with real trade-offs. Manufactured questions ("which of these one-real-and-two-wrong options?") are friction without value.
 - **Don't capture session narration.** "We tried X, then Y, then Z" is a story, not knowledge. Distill to the durable fact: "X is preferred over Y because Z" or "Y fails in case Z".
 - **Don't pad the KB to feel productive.** An empty distill pass is a legitimate outcome. The cost of a low-value entry is real — it sits in the index forever and dilutes the signal.
-- **Don't introduce a new category silently.** If nothing existing fits, surface the gap before creating a new sub-tree.
+- **Don't introduce a new category silently.** Steward-led doesn't mean unannounced — when you create a new sub-tree or top-level doc, name it explicitly in your reply ("added `docs/decisions/` for ADR-style entries because…") so the user can see and redirect if they disagree. Silent additions accumulate into structure no one signed up for.
 - **Don't relocate auto-memory content into the repo KB**, or vice versa, as a side effect. They're different systems for different things. Route each new item to its right home; don't reorganise the other.
 - **Don't duplicate existing entries.** If the knowledge is already in the repo, extend or correct the existing file rather than creating a parallel one.
 - **Don't treat heuristics as a checklist.** The "valuable" signals are guidance, not a rubric. An item that hits no listed signal but is clearly valuable still belongs; an item that hits two but feels marginal probably doesn't.
