@@ -56,12 +56,14 @@ If after filtering the list is empty, **say so plainly and stop**. Not every ses
 
 ### 3. Route each kept item
 
-For each surviving item, propose where it goes per the Giles principle:
+**First, check for routing directives.** Before applying the built-in destinations below, read the global (`~/.claude/CLAUDE.md`) and repo-level `CLAUDE.md` for any explicit storage or routing instructions — a user or repo may declare where certain keepers should go (e.g. "when distilling, also send cross-cutting keepers to <somewhere>"). Honour any you find as **additional** targets: route the matching items there *as well as* through the normal repo-KB routing below, unless the instruction explicitly says to send them somewhere *instead*. This keeps the skill decoupled from any specific store — the skill only knows to look; the destinations live in `CLAUDE.md`. The directive governs *where* a keeper goes, not *whether* it's kept: items still pass the step-2 filter first.
+
+Then, for each surviving item, propose where it goes per the Giles principle:
 
 - **Fits an existing pattern / doc** → extend that file. Index update in `CLAUDE.md` only if the entry doesn't yet exist there.
 - **Earns its own page** → new `docs/<topic>.md` or `docs/patterns/<slug>.md` + one-line index entry in `CLAUDE.md`.
 - **Truly a new category** → pick the best home and create the sub-tree per "Steward, not clerk" in the plugin's `CLAUDE.md`. Name the addition in your reply so the user can redirect if they disagree. Escalate only on a genuine fork (multiple reasonable homes with trade-offs, or a decision that locks in the repo's long-term shape).
-- **Not repo knowledge at all** — cross-repo personal preferences, machine-local references, anything user-specific that wouldn't help an agent working in this repo for a different user. Flag for the user, don't write to the repo KB. Auto-memory and global instructions have their own routing for this kind of thing.
+- **Not repo knowledge at all** — cross-repo personal preferences, machine-local references, anything user-specific that wouldn't help an agent working in this repo for a different user. Flag for the user, don't write to the repo KB. Auto-memory and global instructions have their own routing for this kind of thing — *unless* a routing directive (above) names a store for this cross-repo / user-global knowledge, in which case send it there instead of auto-memory. A directive overrides the default flag/auto-memory handling for the categories it names; this is the one case where the directive reaches beyond the repo-KB destinations.
 - **Belongs in the active working record** (in-repo plan doc, PR description, external tracker) — point at it there if it's task-state rather than reusable knowledge.
 
 Inspect the repo's existing structure before proposing. Don't invent new sub-trees that parallel ones that already exist.
@@ -87,12 +89,12 @@ The Giles principle puts you in the steward role: make routine structural calls 
 
 If you catch yourself drafting a question whose options are "the obvious one" plus two clearly-wrong alternatives, that's not a fork — skip the question, decide, and name the addition in your end-of-pass summary.
 
-Write everything in one batch — files in parallel (they're independent), index updates in `CLAUDE.md` last so the index always points at files that exist. End with a short "wrote these N items, including a new `docs/<category>/` sub-tree because X" summary so the user can skim the diff and see any structural shifts at a glance.
+Write everything in one batch — files in parallel (they're independent), index updates in `CLAUDE.md` last so the index always points at files that exist. End with a short "wrote these N items, including a new `docs/<category>/` sub-tree because X" summary so the user can skim the diff and see any structural shifts at a glance. If a `CLAUDE.md` routing directive applied, name it in the summary too ("routed N cross-cutting items to <target> per repo `CLAUDE.md`") so the user can see where keepers went beyond the repo KB.
 
 ### 5. Verify
 
 - Each new or extended file is small and self-contained — no session narration leaked in.
-- Each index entry in `CLAUDE.md` resolves to a real file with a specific one-liner ("Pinned error wording is a test contract", not "Testing notes").
+- Each index entry in `CLAUDE.md` resolves to its target — a real local file, or the external store a routing directive diverted the content to — with a specific one-liner ("Pinned error wording is a test contract", not "Testing notes").
 - Diff is reviewable — the user can skim it and see exactly what landed where.
 
 ## What NOT to do
@@ -101,6 +103,6 @@ Write everything in one batch — files in parallel (they're independent), index
 - **Don't capture session narration.** "We tried X, then Y, then Z" is a story, not knowledge. Distill to the durable fact: "X is preferred over Y because Z" or "Y fails in case Z".
 - **Don't pad the KB to feel productive.** An empty distill pass is a legitimate outcome. The cost of a low-value entry is real — it sits in the index forever and dilutes the signal.
 - **Don't introduce a new category silently.** Steward-led doesn't mean unannounced — when you create a new sub-tree or top-level doc, name it explicitly in your reply ("added `docs/decisions/` for ADR-style entries because…") so the user can see and redirect if they disagree. Silent additions accumulate into structure no one signed up for.
-- **Don't relocate auto-memory content into the repo KB**, or vice versa, as a side effect. They're different systems for different things. Route each new item to its right home; don't reorganise the other.
+- **Don't relocate auto-memory content into the repo KB**, or vice versa, as a side effect. They're different systems for different things. Route each new item to its right home; don't reorganise the other. (Exception: an explicit `CLAUDE.md` routing directive may name an external store for user-global content that would otherwise reach auto-memory — honour it for the categories it names. That's directed routing, not a side effect.)
 - **Don't duplicate existing entries.** If the knowledge is already in the repo, extend or correct the existing file rather than creating a parallel one.
 - **Don't treat heuristics as a checklist.** The "valuable" signals are guidance, not a rubric. An item that hits no listed signal but is clearly valuable still belongs; an item that hits two but feels marginal probably doesn't.

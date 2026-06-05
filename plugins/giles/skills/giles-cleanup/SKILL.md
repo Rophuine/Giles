@@ -28,6 +28,8 @@ Read the full `CLAUDE.md`. For each section, classify:
 
 Also look at the auto-memory dir (`~/.claude/projects/<repo>/memory/MEMORY.md` and its per-entry files) — that's already the index-plus-subtree pattern, and any restructure should match its shape.
 
+Also read the global (`~/.claude/CLAUDE.md`) and repo `CLAUDE.md` for explicit storage/routing directives — a user or repo may declare that certain kinds of content belong in a particular store (e.g. "route cross-cutting X to <somewhere>"). When you break an accreting section into items, some may match such a directive and route there **in addition to** (or, only if the directive says so, **instead of**) the repo sub-tree. The skill stays decoupled from any specific store: it only knows to look for directives; the destinations live in `CLAUDE.md`. Fold any directive-routing into the step-2 proposal so it's covered by the user's sign-off, and report it in the step-5/6 wrap-up.
+
 ### 2. Propose the structure with the user
 
 Before writing any files, propose:
@@ -55,6 +57,8 @@ For each accreting section, create one file per entry under the sub-tree dir:
 - Aim for ~10–30 lines per file. If an entry is longer than that, consider whether it's actually two patterns.
 
 Write these in parallel — they're independent.
+
+For any item matched by a routing directive (step 1), also write it to the directive's target — additionally by default, or instead of the repo sub-tree only if the directive says so. The repo index still gets its entry unless the directive diverts the content entirely.
 
 ### 4. Rewrite the index
 
@@ -85,7 +89,7 @@ Add a **maintenance section** near the top of `CLAUDE.md` with:
 ### 5. Verify
 
 - Line counts: `CLAUDE.md` well under the trigger; sub-tree files small.
-- Link integrity: every index link in `CLAUDE.md` resolves to a real file. Quick check: extract all link targets via grep, compare to file listing.
+- Link integrity: every index link in `CLAUDE.md` resolves to its target — a real file, or the external store named by a routing directive. Quick check: extract all link targets via grep, compare to the file listing (skip entries a directive points at an external store).
 - Spot-check: open 2–3 sub-tree files; content matches what was inline before, nothing got lost in extraction.
 - Skim the diff in the user's IDE so they can see what moved where; flag anything substantive that didn't make the cut.
 
@@ -100,7 +104,7 @@ Add a **maintenance section** near the top of `CLAUDE.md` with:
 - **Don't restructure without explicit user sign-off** in step 2. The maintenance section codifies decisions about pace and structure that the user owns; choosing those defaults silently is overstepping.
 - **Don't introduce file formats the repo doesn't already use** — no YAML frontmatter on sub-tree files unless the repo already uses it elsewhere. Match existing conventions.
 - **Don't reorganise stable sections** (Conventions, Tests overview, Commits format) unless they're also accreting. They earn their inline spot.
-- **Don't move content from `CLAUDE.md` to auto-memory** — auto-memory is user-specific machine-local state (personal prefs, external-system pointers), not repo knowledge. Repo knowledge stays checked in.
+- **Don't move content from `CLAUDE.md` to auto-memory** — auto-memory is user-specific machine-local state (personal prefs, external-system pointers), not repo knowledge. Repo knowledge stays checked in. (Exception: a `CLAUDE.md` routing directive may name an external store for user-specific/global content — honour it for the categories it names, sending content there instead of auto-memory or a local file as the directive says.)
 - **Don't pre-create history docs for active work.** History docs (`docs/history-m<n>.md` or any equivalent) are completion artifacts. While work is in progress, the working record — in-repo plan doc, external tracker, PR descriptions, whatever the repo uses — IS the place for running notes. Creating a history doc for active work just relocates the dumping ground from CLAUDE.md to docs/, without fixing the underlying issue.
 - **Don't impose a planning structure the repo doesn't use.** If a repo doesn't organise work in numbered milestones (or sprints, or any in-repo phases), don't invent that structure as part of the cleanup. The active-vs-archaeology rule still applies — but "the working doc" may live entirely outside the repo (Linear, Jira, PR descriptions). Adapt the maintenance rhythm to what the repo already does; ask the user if unclear.
 - **Don't relocate status reports without condensing.** If the source CLAUDE.md has long status-report-shaped entries (test counts, verbatim shell output, "out of scope" lists that duplicate the spec doc), moving them verbatim to a new file preserves the noise. Either condense to the curated shape the repo's existing post-completion docs use, fold them back into the active working record inline, or surface to the user that the content is mostly recoverable from `git log` + the spec doc and should just be dropped.

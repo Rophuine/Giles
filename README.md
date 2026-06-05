@@ -42,6 +42,26 @@ After install, the skills appear as `giles:giles-cleanup` and `giles:giles-disti
 
 The skill filters candidates for what's genuinely worth keeping (expensive to rediscover, non-obvious, important to correctness, useful to future agents) and routes the survivors into the existing knowledge base per Giles' index-not-dump discipline.
 
+## Routing directives — sending knowledge to your own store
+
+Both skills check your global (`~/.claude/CLAUDE.md`) and repo `CLAUDE.md` for explicit storage/routing instructions and honour any they find — **no skill editing required**. The skills only know to *look* for a directive; the destination lives in your `CLAUDE.md`, so Giles stays decoupled from any particular tool or store.
+
+Directives are **additive by default**: a matching item goes to the named store *as well as* its normal repo-KB home, so the repo stays self-contained for the next agent who doesn't have your store wired up. Add the word *instead* to divert it. A directive never changes *what* is kept (items still pass the value filter first), only *where* it goes — and an applied directive is named in the skill's end-of-pass summary.
+
+For example, to route cross-repo / user-global knowledge to your own database **instead** of auto-memory, add to `~/.claude/CLAUDE.md`:
+
+```markdown
+## Knowledge routing
+
+I keep durable knowledge in <your-database>. When distilling or cleaning up,
+route cross-repo / user-global knowledge — the kind that would otherwise go to
+auto-memory or a global-instructions file — to <your-database> instead. Keep
+CLAUDE.md files as the index; entries that point at relocated content reference
+the database record (its id/url), not a local file.
+```
+
+The `CLAUDE.md` files themselves always stay put — they hold the directives and the index.
+
 ## Layout
 
 ```
@@ -58,6 +78,9 @@ giles/                                       # marketplace repo root
 │           │   └── SKILL.md                 # one-off restructure procedure
 │           └── giles-distill/
 │               └── SKILL.md                 # end-of-session capture procedure
+├── CHANGELOG.md                             # per-version history
 ├── LICENSE
 └── README.md
 ```
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
