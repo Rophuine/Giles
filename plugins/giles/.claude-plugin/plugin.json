@@ -1,7 +1,7 @@
 {
   "name": "giles",
-  "version": "0.4.0",
-  "description": "Knowledge-base discipline for agent-notes files. Keeps CLAUDE.md as an index not a dump, distinguishes active-work records from post-completion archaeology (adapting to each repo's planning convention), and ships two skills: a one-off cleanup for sprawling agent-notes files, and an end-of-session distill for capturing valuable session learnings into the knowledge base.",
+  "version": "0.5.0",
+  "description": "Knowledge-base discipline for agent-notes files. Keeps CLAUDE.md as an index not a dump, distinguishes active-work records from post-completion archaeology (adapting to each repo's planning convention), and ships three skills: a one-off cleanup for sprawling agent-notes files, an end-of-session distill for capturing valuable session learnings, and a setup skill that configures routing directives to external knowledge stores.",
   "author": {
     "name": "Lionell Pack"
   },

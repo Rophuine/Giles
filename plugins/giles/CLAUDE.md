@@ -1,6 +1,6 @@
 # Giles — agent-notes discipline
 
-When this plugin is enabled, treat every repo's agent-notes file (`CLAUDE.md`, `AGENTS.md`, or equivalent) as an **index**, not a content store. The rules below govern how new knowledge enters the repo during normal work. Two skills shipped with this plugin handle the deliberate beats around that: `giles-cleanup` for the one-off restructure when an existing repo has already grown unwieldy, and `giles-distill` for the end-of-session pass where session learnings get filtered and routed into the knowledge base.
+When this plugin is enabled, treat every repo's agent-notes file (`CLAUDE.md`, `AGENTS.md`, or equivalent) as an **index**, not a content store. The rules below govern how new knowledge enters the repo during normal work. Three skills shipped with this plugin handle the deliberate beats around that: `giles-cleanup` for the one-off restructure when an existing repo has already grown unwieldy, `giles-distill` for the end-of-session pass where session learnings get filtered and routed into the knowledge base, and `giles-setup` for configuring routing directives that point Giles at an external knowledge store.
 
 ## Principle: index, not dump
 
@@ -69,6 +69,8 @@ The procedure for the restructure is the `giles-cleanup` skill — invoke via th
 Day-to-day routing (above) catches most new knowledge as it appears. The deliberate end-of-session pass catches what slipped through: re-read the session with the question "what should outlast this conversation?" front of mind, filter for what's genuinely valuable, and route it per the principle above. The `giles-distill` skill walks through the reflect → filter → route → apply procedure. Triggered by phrases like "what did we learn?", "capture what's worth saving", "distill the session", "/giles-distill".
 
 Both `giles-distill` (when routing keepers) and `giles-cleanup` (when extracting a dump into items) honour **explicit routing directives** declared in the global or repo `CLAUDE.md`. A user or repo can say "also send cross-cutting keepers to <somewhere>" and the skills pick it up without anyone editing them — the skill only knows to look for storage/routing instructions; the destinations themselves live in `CLAUDE.md`, keeping the skills decoupled from any specific store. Such directives add a target (they route matching items there *as well as* through the normal repo-KB destinations) unless they say to route somewhere *instead*; they never change *what* gets kept, only *where* it goes. An `instead` directive can also divert the cross-repo / user-global branch that would otherwise reach auto-memory or a global-instructions file — that's the one case where a directive routes outside the repo-KB destinations. When a directive diverts content wholesale, the matching `CLAUDE.md` index entry points at the directive's store (a record id/URL) rather than a local file; the session prompt files themselves (global + repo `CLAUDE.md`) always stay put, since they hold the directives and the index.
+
+The `giles-setup` skill authors these directives: it interviews the user about their store (and how an agent writes to it) and writes the `## Knowledge routing` block into the global or repo `CLAUDE.md`. Triggered by phrases like "set up Giles", "configure routing", "point Giles at my knowledge base", "/giles-setup".
 
 ## Greenfield repos
 

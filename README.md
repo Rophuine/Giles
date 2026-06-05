@@ -13,6 +13,7 @@ The plugin ships:
 - **Principle + maintenance rhythm** (loaded into every session via the plugin's `CLAUDE.md`) — shapes how Claude handles new knowledge during normal work.
 - **`giles-cleanup` skill** — a one-off restructure procedure for when a repo's `CLAUDE.md` has already grown unwieldy. Triggers on phrases like "clean up CLAUDE.md", "restructure the docs", "knowledge base is getting too big".
 - **`giles-distill` skill** — an end-of-session pass that filters what was learned during the session and routes the genuinely valuable items into the knowledge base. Triggers on phrases like "what did we learn?", "capture what's worth saving", "distill the session".
+- **`giles-setup` skill** — a one-time configuration pass that interviews you about any external knowledge store and writes the matching routing directive into your global or repo `CLAUDE.md`, so the capture skills route knowledge there. Triggers on phrases like "set up Giles", "configure routing", "point Giles at my knowledge base".
 
 ## Install
 
@@ -25,7 +26,7 @@ This repo is a Claude Code marketplace (`giles-plugins`) that currently contains
 
 Where `<path-or-git-url>` is either the local filesystem path to this repo (e.g. `c:\dev\lee\claude-plugins\giles`) or its GitHub URL after pushing (e.g. `lionellpack/giles`).
 
-After install, the skills appear as `giles:giles-cleanup` and `giles:giles-distill` in the available-skills list.
+After install, the skills appear as `giles:giles-cleanup`, `giles:giles-distill`, and `giles:giles-setup` in the available-skills list.
 
 ## When the cleanup skill applies
 
@@ -44,7 +45,9 @@ The skill filters candidates for what's genuinely worth keeping (expensive to re
 
 ## Routing directives — sending knowledge to your own store
 
-Both skills check your global (`~/.claude/CLAUDE.md`) and repo `CLAUDE.md` for explicit storage/routing instructions and honour any they find — **no skill editing required**. The skills only know to *look* for a directive; the destination lives in your `CLAUDE.md`, so Giles stays decoupled from any particular tool or store.
+Both capture skills check your global (`~/.claude/CLAUDE.md`) and repo `CLAUDE.md` for explicit storage/routing instructions and honour any they find — **no skill editing required**. The skills only know to *look* for a directive; the destination lives in your `CLAUDE.md`, so Giles stays decoupled from any particular tool or store.
+
+The quickest way to create a directive is the **`giles-setup`** skill — it interviews you about your store and writes the block for you. Or write it by hand, as below.
 
 Directives are **additive by default**: a matching item goes to the named store *as well as* its normal repo-KB home, so the repo stays self-contained for the next agent who doesn't have your store wired up. Add the word *instead* to divert it. A directive never changes *what* is kept (items still pass the value filter first), only *where* it goes — and an applied directive is named in the skill's end-of-pass summary.
 
@@ -76,8 +79,10 @@ giles/                                       # marketplace repo root
 │       └── skills/
 │           ├── giles-cleanup/
 │           │   └── SKILL.md                 # one-off restructure procedure
-│           └── giles-distill/
-│               └── SKILL.md                 # end-of-session capture procedure
+│           ├── giles-distill/
+│           │   └── SKILL.md                 # end-of-session capture procedure
+│           └── giles-setup/
+│               └── SKILL.md                 # configures routing directives
 ├── CHANGELOG.md                             # per-version history
 ├── LICENSE
 └── README.md

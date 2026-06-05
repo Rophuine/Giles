@@ -4,6 +4,18 @@ All notable changes to the Giles plugin are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] — 2026-06-05
+
+### Added
+
+- **`giles-setup` skill** — interviews the user about any external knowledge store
+  (a database, a notes app, an MCP-backed memory, a file) and writes the matching
+  routing directive into the global or repo `CLAUDE.md`. The capture skills
+  (`giles-distill`, `giles-cleanup`) then route knowledge there without anyone
+  editing them. Stays tool-agnostic: everything store-specific lives in the
+  directive it writes, never in the skill. Triggers on phrases like "set up Giles",
+  "configure routing", "point Giles at my knowledge base", "/giles-setup".
+
 ## [0.4.0] — 2026-06-05
 
 ### Added
